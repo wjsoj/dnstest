@@ -1,1 +1,164 @@
-{"list":[{"name":"阿里 IPv6 DNS (Alidns)","IP":"2400:3200::1"},{"name":"阿里 IPv6 DNS (Alidns)","IP":"2400:3200:baba::1"},{"name":"腾讯 DNSPod IPv6 DNS","IP":"2402:4e00::"},{"name":"百度 IPv6 DNS","IP":"2400:da00::6666"},{"name":"中国电信 IPv6 DNS","IP":"240e:4c:4008::1"},{"name":"中国电信 IPv6 DNS","IP":"240e:4c:4808::1"},{"name":"中国联通 IPv6 DNS","IP":"2408:8899::8"},{"name":"中国联通 IPv6 DNS","IP":"2408:8888::8"},{"name":"中国移动 IPv6 DNS","IP":"2409:8088::a"},{"name":"中国移动 IPv6 DNS","IP":"2409:8088::b"},{"name":"下一代互联网北京研究中心","IP":"240C::6666"},{"name":"下一代互联网北京研究中心","IP":"240C::6644"},{"name":"CNNIC IPv6 DNS 服务器","IP":"2001:dc7:1000::1"},{"name":"TWNIC IPv6 DNS Quad 101","IP":"2001:de4::101"},{"name":"TWNIC IPv6 DNS Quad 101","IP":"2001:de4::102"},{"name":"Google Public IPv6 DNS","IP":"2001:4860:4860::8888"},{"name":"Google Public IPv6 DNS","IP":"2001:4860:4860::8844"},{"name":"Cloudflare IPv6 DNS","IP":"2606:4700:4700::1111"},{"name":"Cloudflare IPv6 DNS","IP":"2606:4700:4700::1001"},{"name":"OpenDNS","IP":"2620:0:ccc::2"},{"name":"OpenDNS","IP":"2620:0:ccd::2"},{"name":"Quad9 IPv6 DNS","IP":"2620:fe::fe"},{"name":"Quad9 IPv6 DNS","IP":"2620:fe::9"},{"name":"DNS.SB","IP":"2a09::"}]}
+{
+  "list": [
+    {
+      "name": "阿里 IPv6 DNS (Alidns)",
+      "IP": "2400:3200::1"
+    },
+    {
+      "name": "阿里 IPv6 DNS (Alidns)",
+      "IP": "2400:3200:baba::1"
+    },
+    {
+      "name": "腾讯 DNSPod IPv6 DNS",
+      "IP": "2402:4e00::"
+    },
+    {
+      "name": "百度 IPv6 DNS",
+      "IP": "2400:da00::6666"
+    },
+    {
+      "name": "中国电信 IPv6 DNS",
+      "IP": "240e:4c:4008::1"
+    },
+    {
+      "name": "中国电信 IPv6 DNS",
+      "IP": "240e:4c:4808::1"
+    },
+    {
+      "name": "中国联通 IPv6 DNS",
+      "IP": "2408:8899::8"
+    },
+    {
+      "name": "中国联通 IPv6 DNS",
+      "IP": "2408:8888::8"
+    },
+    {
+      "name": "中国移动 IPv6 DNS",
+      "IP": "2409:8088::a"
+    },
+    {
+      "name": "中国移动 IPv6 DNS",
+      "IP": "2409:8088::b"
+    },
+    {
+      "name": "下一代互联网北京研究中心",
+      "IP": "240C::6666"
+    },
+    {
+      "name": "下一代互联网北京研究中心",
+      "IP": "240C::6644"
+    },
+    {
+      "name": "CNNIC IPv6 DNS 服务器",
+      "IP": "2001:dc7:1000::1"
+    },
+    {
+      "name": "TWNIC IPv6 DNS Quad 101",
+      "IP": "2001:de4::101"
+    },
+    {
+      "name": "TWNIC IPv6 DNS Quad 101",
+      "IP": "2001:de4::102"
+    },
+    {
+      "name": "北京邮电大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:202:10::36"
+    },
+    {
+      "name": "北京邮电大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:202:10::37"
+    },
+    {
+      "name": "上海交通大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:8000:1:202:120:2:100"
+    },
+    {
+      "name": "上海交通大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:8000:1:202:120:2:101"
+    },
+    {
+      "name": "中科院网络信息中心 IPv6 DNS 服务器",
+      "IP": "2001:cc0:2fff:1::6666"
+    },
+    {
+      "name": "北京交通大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:205:2060::188"
+    },
+    {
+      "name": "清华大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:ff:305:20c:29ff:fe1f:a92a"
+    },
+    {
+      "name": "清华大学 TUNA 协会 IPv6 DNS 服务器",
+      "IP": "2001:da8::666"
+    },
+    {
+      "name": "北京科技大学 IPv6 DNS 服务器",
+      "IP": "2001:da8:208:10::6"
+    },
+    {
+      "name": "科技网 IPv6 DNS 服务器",
+      "IP": "2001:cc0:2fff:2::6"
+    },
+    {
+      "name": "Google Public IPv6 DNS",
+      "IP": "2001:4860:4860::8888"
+    },
+    {
+      "name": "Google Public IPv6 DNS",
+      "IP": "2001:4860:4860::8844"
+    },
+    {
+      "name": "Cloudflare IPv6 DNS",
+      "IP": "2606:4700:4700::1111"
+    },
+    {
+      "name": "Cloudflare IPv6 DNS",
+      "IP": "2606:4700:4700::1001"
+    },
+    {
+      "name": "OpenDNS",
+      "IP": "2620:0:ccc::2"
+    },
+    {
+      "name": "OpenDNS",
+      "IP": "2620:0:ccd::2"
+    },
+    {
+      "name": "Quad9 IPv6 DNS",
+      "IP": "2620:fe::fe"
+    },
+    {
+      "name": "Quad9 IPv6 DNS",
+      "IP": "2620:fe::9"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(基础版)",
+      "IP": "2620:74:1b::1:1"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(基础版)",
+      "IP": "2620:74:1c::2:2"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(安全版)",
+      "IP": "2610:a1:1018::2"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(安全版)",
+      "IP": "2610:a1:1019::2"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(家庭版)",
+      "IP": "2610:a1:1018::3"
+    },
+    {
+      "name": "Neustar UltraDNS IPv6(家庭版)",
+      "IP": "2610:a1:1019::3"
+    },
+    {
+      "name": "DNS.SB",
+      "IP": "2a09::"
+    }
+  ]
+}
