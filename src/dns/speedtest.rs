@@ -225,6 +225,12 @@ mod tests {
 
     #[tokio::test]
     async fn test_ping_localhost() {
+        // This test requires ICMP socket permissions which are not available in CI
+        // Skip if CI environment variable is set
+        if std::env::var("CI").is_ok() {
+            return;
+        }
+
         let tester = SpeedTester::new().unwrap();
         let server = DnsServer::new("localhost", "127.0.0.1");
         let result = tester.test_latency(&server).await;

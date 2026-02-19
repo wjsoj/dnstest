@@ -266,6 +266,12 @@ mod tests {
 
     #[tokio::test]
     async fn test_resolve_google() {
+        // This test requires network connection which may be unreliable in CI
+        // Skip if CI environment variable is set
+        if std::env::var("CI").is_ok() {
+            return;
+        }
+
         let checker = PollutionChecker::new().unwrap();
         let result = checker.check("google.com").await.unwrap();
 
