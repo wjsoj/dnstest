@@ -4,6 +4,9 @@
 //! DNS hijacking or DNS censorship). It works by comparing DNS resolution
 //! results from the system DNS with results from known public DNS servers.
 
+#![allow(clippy::missing_panics_doc)]
+#![allow(clippy::missing_errors_doc)]
+
 use crate::dns::types::PollutionResult;
 use crate::error::Result;
 use std::net::IpAddr;
@@ -57,7 +60,7 @@ pub struct PollutionChecker {
 }
 
 impl PollutionChecker {
-    /// Create a new PollutionChecker.
+    /// Create a new `PollutionChecker`.
     ///
     /// Initializes both system DNS resolver and public DNS resolver
     /// (using Google and Cloudflare DNS).
@@ -80,9 +83,8 @@ impl PollutionChecker {
                 true,
             ),
         );
-        let public_resolver =
-            TokioAsyncResolver::tokio(public_config, ResolverOpts::default())
-                .map_err(crate::error::Error::Resolver)?;
+        let public_resolver = TokioAsyncResolver::tokio(public_config, ResolverOpts::default())
+            .map_err(crate::error::Error::Resolver)?;
 
         Ok(Self {
             system_resolver,

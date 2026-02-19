@@ -80,7 +80,11 @@ impl std::str::FromStr for OutputFormat {
             "json" => Ok(Self::Json),
             "csv" => Ok(Self::Csv),
             "tsv" => Ok(Self::Tsv),
-            _ => Err(format!("Unknown format: {}. Valid options are: {:?}", s, Self::names())),
+            _ => Err(format!(
+                "Unknown format: {}. Valid options are: {:?}",
+                s,
+                Self::names()
+            )),
         }
     }
 }
@@ -103,7 +107,7 @@ pub enum Commands {
     ///
     /// Launch the interactive terminal user interface (TUI).
     /// This provides a menu-based interface for DNS testing.
-    #[command(alias = "i", visible_alias = "interactive")]
+    #[command(alias = "i")]
     Interactive {
         /// Load custom DNS list file (JSON format)
         #[arg(short, long)]
@@ -114,7 +118,7 @@ pub enum Commands {
     ///
     /// Test DNS server response times using ICMP ping.
     /// Results can be sorted by latency and displayed in various formats.
-    #[command(alias = "s", visible_alias = "speed")]
+    #[command(alias = "s")]
     Speed {
         /// DNS list file (JSON format)
         #[arg(short, long)]
@@ -141,7 +145,7 @@ pub enum Commands {
     ///
     /// Check if DNS responses are being polluted (censored or hijacked).
     /// Compares system DNS resolution results with public DNS servers.
-    #[command(alias = "c", visible_alias = "check")]
+    #[command(alias = "c")]
     Check {
         /// Domain to check (default: google.com)
         #[arg(short, long, default_value = "google.com")]
@@ -156,7 +160,7 @@ pub enum Commands {
     ///
     /// List all available DNS servers from the default list or a custom file.
     /// Can filter by IP version (IPv4/IPv6).
-    #[command(alias = "l", visible_alias = "list")]
+    #[command(alias = "l")]
     List {
         /// DNS list file
         #[arg(short, long)]
@@ -171,11 +175,26 @@ pub enum Commands {
         ipv6_only: bool,
     },
 
+    /// 从网络更新 DNS 列表
+    ///
+    /// Update DNS list from remote URL (GitHub Pages).
+    /// Downloads the latest DNS list from the configured URL.
+    #[command(alias = "u")]
+    Update {
+        /// URL to download DNS list from (default: GitHub Pages)
+        #[arg(short, long)]
+        url: Option<String>,
+
+        /// Output file path (default: dnslist.json in current directory)
+        #[arg(short, long)]
+        output: Option<PathBuf>,
+    },
+
     /// 导出DNS列表
     ///
     /// Export the merged DNS server list to a JSON file.
     /// Includes both IPv4 and IPv6 servers by default.
-    #[command(alias = "e", visible_alias = "export")]
+    #[command(alias = "e")]
     Export {
         /// Output file path
         #[arg(short, long, default_value = "dnslist.json")]
@@ -203,6 +222,7 @@ pub fn parse() -> Cli {
 ///
 /// Returns a tuple of `(Cli, verbose)` where `verbose` indicates
 /// whether verbose logging was enabled.
+#[must_use]
 pub fn parse_verbose() -> (Cli, bool) {
     let cli = Cli::parse();
     let verbose = cli.verbose;

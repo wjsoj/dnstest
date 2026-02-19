@@ -100,7 +100,9 @@ async fn run_speed_test(
         results.sort_by(|a, b| {
             let a_lat = a.latency_ms.unwrap_or(f64::MAX);
             let b_lat = b.latency_ms.unwrap_or(f64::MAX);
-            a_lat.partial_cmp(&b_lat).unwrap_or(std::cmp::Ordering::Equal)
+            a_lat
+                .partial_cmp(&b_lat)
+                .unwrap_or(std::cmp::Ordering::Equal)
         });
     }
 
@@ -119,13 +121,13 @@ async fn run_speed_test(
     println!("成功: {}", summary.success);
     println!("失败/超时: {}", summary.failed + summary.timeout);
     if let Some(avg) = summary.avg_latency {
-        println!("平均延迟: {:.2} ms", avg);
+        println!("平均延迟: {avg:.2} ms");
     }
     if let Some(min) = summary.min_latency {
-        println!("最低延迟: {:.2} ms", min);
+        println!("最低延迟: {min:.2} ms");
     }
     if let Some(max) = summary.max_latency {
-        println!("最高延迟: {:.2} ms", max);
+        println!("最高延迟: {max:.2} ms");
     }
 
     Ok(())
@@ -139,8 +141,7 @@ fn print_results_table(results: &[dns::SpeedTestResult]) {
     for (idx, r) in results.iter().enumerate() {
         let latency = r
             .latency_ms
-            .map(|l| format!("{:.1} ms", l))
-            .unwrap_or_else(|| "Timeout".to_string());
+            .map_or_else(|| "Timeout".to_string(), |l| format!("{l:.1} ms"));
 
         let status = if r.success { "" } else { "[失败] " };
 
@@ -199,27 +200,28 @@ fn print_results_tsv(results: &[dns::SpeedTestResult]) {
 /// * `domain` - Domain name to check
 /// * `format` - Output format
 async fn run_pollution_check(domain: String, format: OutputFormat) -> Result<()> {
-    println!("检测域名: {}", domain);
+    println!("检测域名: {domain}");
     println!("正在解析...\n");
 
     let checker = PollutionChecker::new()?;
     let result = checker.check(&domain).await?;
 
-    match format {
-        OutputFormat::Json => {
-            let json = serde_json::to_string_pretty(&result).unwrap();
-            println!("{json}");
-        }
-        _ => {
-            println!("域名: {}", result.domain);
-            println!("系统DNS解析: {:?}", result.system_ips);
-            println!("公共DNS解析: {:?}", result.public_ips);
-            println!(
-                "污染检测: {}",
-                if result.is_polluted { "可能污染" } else { "正常" }
-            );
-            println!("详情: {}", result.details);
-        }
+    if format == OutputFormat::Json {
+        let json = serde_json::to_string_pretty(&result).unwrap();
+        println!("{json}");
+    } else {
+        println!("域名: {}", result.domain);
+        println!("系统DNS解析: {:?}", result.system_ips);
+        println!("公共DNS解析: {:?}", result.public_ips);
+        println!(
+            "污染检测: {}",
+            if result.is_polluted {
+                "可能污染"
+            } else {
+                "正常"
+            }
+        );
+        println!("详情: {}", result.details);
     }
 
     Ok(())
@@ -243,8 +245,7 @@ fn run_list_dns(file: Option<PathBuf>, ipv4_only: bool, ipv6_only: bool) -> Resu
     let filtered: Vec<_> = servers
         .into_iter()
         .filter(|s| {
-            let ip: std::net::IpAddr =
-                s.ip.parse().unwrap_or_else(|_| "0.0.0.0".parse().unwrap());
+            let ip: std::net::IpAddr = s.ip.parse().unwrap_or_else(|_| "0.0.0.0".parse().unwrap());
             let is_v4 = ip.is_ipv4();
             let is_v6 = ip.is_ipv6();
 
@@ -289,7 +290,7 @@ async fn run_interactive(file: Option<PathBuf>) -> Result<()> {
 async fn main() -> Result<()> {
     // Set up panic hook for better error reporting
     std::panic::set_hook(Box::new(|panic_info| {
-        eprintln!("程序崩溃: {}", panic_info);
+        eprintln!("程序崩溃: {panic_info}");
     }));
 
     let (cli, verbose) = dnstest::cli::parse_verbose();
@@ -335,11 +336,95 @@ async fn main() -> Result<()> {
             println!("已导出到: {}", output.display());
         }
 
+        Some(Commands::Update { url, output }) => {
+            run_update(url, output)?;
+        }
+
         None => {
             // Default to interactive mode
             run_interactive(None).await?;
         }
     }
 
+    Ok(())
+}
+
+/// Run DNS list update from remote URL.
+fn run_update(url: Option<String>, output: Option<std::path::PathBuf>) -> Result<()> {
+    // Default URLs
+    let ipv4_url = url
+        .clone()
+        .unwrap_or_else(|| "https://wjsoj.github.io/dnstest/dnslist.json".to_string());
+    let ipv6_url =
+        url.unwrap_or_else(|| "https://wjsoj.github.io/dnstest/dnslist-v6.json".to_string());
+
+    // Get user config directory
+    let config_dir = ConfigLoader::config_dir();
+
+    // Determine output paths (default to config directory)
+    let (ipv4_output, ipv6_output) = if output.is_some() {
+        (
+            output
+                .clone()
+                .unwrap_or_else(|| std::path::PathBuf::from("dnslist.json")),
+            output.unwrap_or_else(|| std::path::PathBuf::from("dnslist-v6.json")),
+        )
+    } else {
+        (
+            config_dir.join("dnslist.json"),
+            config_dir.join("dnslist-v6.json"),
+        )
+    };
+
+    // Create config directory if it doesn't exist
+    if let Some(parent) = ipv4_output.parent() {
+        if !parent.exists() {
+            std::fs::create_dir_all(parent)?;
+        }
+    }
+
+    println!("正在更新 DNS 列表...");
+    println!(
+        "保存到: {}",
+        ipv4_output.parent().unwrap_or(&ipv4_output).display()
+    );
+
+    // Download IPv4 list
+    let ipv4_result = std::process::Command::new("curl")
+        .args(["-sL", &ipv4_url, "-o"])
+        .arg(&ipv4_output)
+        .output();
+
+    match ipv4_result {
+        Ok(output) if output.status.success() => {
+            println!("IPv4 列表已保存");
+        }
+        Ok(output) => {
+            eprintln!("下载失败: {}", String::from_utf8_lossy(&output.stderr));
+        }
+        Err(e) => {
+            eprintln!("执行 curl 失败: {}", e);
+        }
+    }
+
+    // Download IPv6 list
+    let ipv6_result = std::process::Command::new("curl")
+        .args(["-sL", &ipv6_url, "-o"])
+        .arg(&ipv6_output)
+        .output();
+
+    match ipv6_result {
+        Ok(output) if output.status.success() => {
+            println!("IPv6 列表已保存");
+        }
+        Ok(output) => {
+            eprintln!("下载失败: {}", String::from_utf8_lossy(&output.stderr));
+        }
+        Err(e) => {
+            eprintln!("执行 curl 失败: {}", e);
+        }
+    }
+
+    println!("更新完成!");
     Ok(())
 }

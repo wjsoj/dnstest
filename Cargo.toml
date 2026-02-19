@@ -6,8 +6,8 @@ rust-version = "1.75"
 description = "A modern DNS speed testing and pollution detection CLI tool"
 readme = "README.md"
 license = "MIT"
-repository = "https://github.com/yourname/dnstest"
-homepage = "https://github.com/yourname/dnstest"
+repository = "https://github.com/wjsoj/dnstest"
+homepage = "https://github.com/wjsoj/dnstest"
 keywords = ["dns", "network", "speedtest", "cli", "tui"]
 categories = ["network", "command-line-utilities"]
 
@@ -17,11 +17,12 @@ clap = { version = "4.5", features = ["derive", "env"] }
 clap_complete = "4.5"
 
 # TUI
-ratatui = "0.26"
-crossterm = "0.27"
+ratatui = "0.29"
+crossterm = "0.28"
 
 # Async runtime
 tokio = { version = "1", features = ["full"] }
+futures = "0.3"
 
 # Network
 surge-ping = "0.8"

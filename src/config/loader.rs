@@ -61,9 +61,9 @@ impl ConfigLoader {
         })
     }
 
-    /// Load both IPv4 and IPv6 DNS lists from default files.
+    /// Load both IPv4 and IPv6 DNS lists from user config directory.
     ///
-    /// Loads `dnslist.json` and `dnslist-v6.json` from the current directory.
+    /// Loads from `~/.config/dnstest/dnslist.json` and `dnslist-v6.json`.
     ///
     /// # Errors
     ///
@@ -76,23 +76,40 @@ impl ConfigLoader {
     /// let merged = ConfigLoader::merge(lists);
     /// ```
     pub fn load_all() -> Result<Vec<DnsList>> {
+        // Get user config directory
+        let config_dir = dirs::config_dir()
+            .unwrap_or_else(|| std::path::PathBuf::from("."))
+            .join("dnstest");
+
         let mut lists = Vec::new();
 
-        // Try to load IPv4 list
-        if let Ok(list) = Self::load_from_file("dnslist.json") {
+        // Try to load IPv4 list from config directory
+        let ipv4_path = config_dir.join("dnslist.json");
+        if let Ok(list) = Self::load_from_file(&ipv4_path) {
             lists.push(list);
         }
 
-        // Try to load IPv6 list
-        if let Ok(list) = Self::load_from_file("dnslist-v6.json") {
+        // Try to load IPv6 list from config directory
+        let ipv6_path = config_dir.join("dnslist-v6.json");
+        if let Ok(list) = Self::load_from_file(&ipv6_path) {
             lists.push(list);
         }
 
         if lists.is_empty() {
-            return Err(Error::Config("No DNS list found".into()));
+            return Err(Error::Config(
+                "No DNS list found. Please run 'dnstest update' first.".into(),
+            ));
         }
 
         Ok(lists)
+    }
+
+    /// Get the config directory path.
+    #[must_use]
+    pub fn config_dir() -> std::path::PathBuf {
+        dirs::config_dir()
+            .unwrap_or_else(|| std::path::PathBuf::from("."))
+            .join("dnstest")
     }
 
     /// Merge multiple DNS lists into one.
@@ -115,6 +132,7 @@ impl ConfigLoader {
     /// let merged = ConfigLoader::merge(lists);
     /// println!("Total servers: {}", merged.servers.len());
     /// ```
+    #[must_use]
     pub fn merge(lists: Vec<DnsList>) -> DnsList {
         let mut servers = Vec::new();
         for list in lists {

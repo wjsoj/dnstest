@@ -1,4 +1,21 @@
+# Rust build artifacts
 /target
 
-# prompts for agent coding
+# Rust Cargo cache
+.cargo/
+# Cargo build lock files for other crates
+**/*.cargo-lock
+
+# Editor and IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Agent coding prompts
 Agent.md
+
+# OS files
+Thumbs.db
+.DS_Store

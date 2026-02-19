@@ -163,6 +163,7 @@ pub struct SpeedTestResult {
 
 impl SpeedTestResult {
     /// Create a successful result.
+    #[must_use]
     pub fn success(server: DnsServer, latency_ms: f64, packet_loss: f64) -> Self {
         Self {
             server,
@@ -212,6 +213,7 @@ pub struct PollutionResult {
 impl PollutionResult {
     /// Create a pollution check result.
     #[allow(dead_code)]
+    #[must_use]
     pub fn new(
         domain: String,
         system_ips: Vec<IpAddr>,
@@ -265,11 +267,15 @@ impl TestSummary {
             if let Some(latency) = result.latency_ms {
                 self.avg_latency = Some(
                     self.avg_latency
-                        .map(|a| (a * (self.success - 1) as f64 + latency) / self.success as f64)
+                        .map(|a| {
+                            a.mul_add((self.success - 1) as f64, latency) / self.success as f64
+                        })
                         .unwrap_or(latency),
                 );
-                self.min_latency = Some(self.min_latency.map(|m| m.min(latency)).unwrap_or(latency));
-                self.max_latency = Some(self.max_latency.map(|m| m.max(latency)).unwrap_or(latency));
+                self.min_latency =
+                    Some(self.min_latency.map(|m| m.min(latency)).unwrap_or(latency));
+                self.max_latency =
+                    Some(self.max_latency.map(|m| m.max(latency)).unwrap_or(latency));
             }
         } else if result.is_timeout() {
             self.timeout += 1;

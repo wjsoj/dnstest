@@ -3,6 +3,11 @@
 //! This module provides functionality to test DNS server response times
 //! using ICMP ping (Internet Control Message Protocol).
 
+#![allow(clippy::missing_panics_doc)]
+#![allow(clippy::missing_errors_doc)]
+#![allow(clippy::manual_let_else)]
+#![allow(clippy::items_after_statements)]
+
 use crate::dns::types::{DnsServer, SpeedTestResult, TestSummary};
 use crate::error::{Error, Result};
 use std::time::{Duration, Instant};
@@ -38,7 +43,7 @@ pub struct SpeedTester {
 }
 
 impl SpeedTester {
-    /// Create a new SpeedTester with default settings.
+    /// Create a new `SpeedTester` with default settings.
     ///
     /// # Errors
     ///
@@ -55,7 +60,7 @@ impl SpeedTester {
         })
     }
 
-    /// Create a new SpeedTester with custom settings.
+    /// Create a new `SpeedTester` with custom settings.
     ///
     /// # Arguments
     ///
@@ -91,19 +96,13 @@ impl SpeedTester {
         let ip = match server.ip_addr() {
             Some(ip) => ip,
             None => {
-                return SpeedTestResult::failure(
-                    server.clone(),
-                    "Invalid IP address",
-                );
+                return SpeedTestResult::failure(server.clone(), "Invalid IP address");
             }
         };
 
         // Skip IPv6 for now as it requires special handling
         if ip.is_ipv6() {
-            return SpeedTestResult::failure(
-                server.clone(),
-                "IPv6 not supported yet",
-            );
+            return SpeedTestResult::failure(server.clone(), "IPv6 not supported yet");
         }
 
         let payload = [0u8; DEFAULT_PACKET_SIZE];
@@ -240,7 +239,7 @@ mod tests {
     #[test]
     fn test_speedtest_result() {
         let server = DnsServer::new("Test", "8.8.8.8");
-        
+
         let success_result = SpeedTestResult::success(server.clone(), 10.0, 0.0);
         assert!(success_result.success);
         assert_eq!(success_result.latency_ms, Some(10.0));

@@ -59,6 +59,6 @@ pub mod tui;
 // Re-export commonly used types
 pub use cli::{Cli, Commands, OutputFormat};
 pub use config::ConfigLoader;
-pub use dns::{PollutionChecker, SpeedTester};
 pub use dns::types::{DnsList, DnsServer, PollutionResult, SpeedTestResult, TestSummary};
+pub use dns::{PollutionChecker, SpeedTester};
 pub use error::{Error, Result};
