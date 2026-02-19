@@ -4,6 +4,7 @@
 
 #![warn(clippy::all, warnings)]
 #![warn(clippy::pedantic, clippy::nursery)]
+#![allow(clippy::uninlined_format_args)]
 
 use dnstest::cli::{Commands, OutputFormat};
 use dnstest::config::ConfigLoader;

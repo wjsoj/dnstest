@@ -73,6 +73,11 @@ print_literal = "allow"
 single_match_else = "allow"
 needless_pass_by_value = "allow"
 missing_const_for_fn = "allow"
+similar_names = "allow"
+redundant_clone = "allow"
+bool_to_int_with_if = "allow"
+format_push_string = "allow"
+unused_async = "allow"
 
 [lib]
 name = "dnstest"
