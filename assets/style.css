@@ -1,0 +1,79 @@
+/* dnstest - GitHub Pages Styles */
+
+/* CSS Variables for theming */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #e9ecef;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --accent: #0d6efd;
+    --accent-hover: #0b5ed7;
+    --border: #dee2e6;
+    --code-bg: #f1f3f5;
+    --success: #198754;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-tertiary: #0f3460;
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0a0;
+    --accent: #4dabf7;
+    --accent-hover: #74c0fc;
+    --border: #2d3748;
+    --code-bg: #2d2d44;
+    --success: #51cf66;
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+header { padding: 2rem 0; border-bottom: 1px solid var(--border); background-color: var(--bg-secondary); }
+.header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.logo h1 { font-size: 1.75rem; font-weight: 700; }
+.logo .highlight { color: var(--accent); }
+.theme-toggle button { background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; transition: all 0.2s ease; }
+.theme-toggle button:hover { background: var(--accent); color: white; border-color: var(--accent); }
+main { padding: 3rem 0; }
+section { margin-bottom: 3rem; }
+section h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); }
+section h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary); }
+section p { color: var(--text-secondary); margin-bottom: 1rem; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+.card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: var(--card-shadow); }
+.card h3 { margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.card-icon { font-size: 1.5rem; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+code { font-family: "SF Mono", "Fira Code", monospace; font-size: 0.875rem; }
+:not(pre) > code { background: var(--code-bg); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--accent); }
+.btn { display: inline-block; background: var(--accent); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.2s ease; border: none; cursor: pointer; }
+.btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--accent); color: white; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.download-buttons { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+.feature-list { list-style: none; margin: 1rem 0; }
+.feature-list li { padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); }
+.feature-list li::before { content: "✓"; color: var(--success); font-weight: bold; }
+footer { padding: 2rem 0; border-top: 1px solid var(--border); background: var(--bg-secondary); text-align: center; color: var(--text-muted); font-size: 0.875rem; }
+footer a { color: var(--text-secondary); }
+@media (max-width: 640px) { .header-content { flex-direction: column; text-align: center; } .logo h1 { font-size: 1.5rem; } .card-grid { grid-template-columns: 1fr; } .download-buttons { flex-direction: column; } .btn { text-align: center; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeIn 0.5s ease forwards; }
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }

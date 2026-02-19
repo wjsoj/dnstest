@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dnstest - DNS 测速与污染检测工具</title>
+    <meta name="description" content="一个现代化的 DNS 测速和污染检测 CLI 工具，支持 TUI 交互界面">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"><h1>DNS<span class="highlight">test</span></h1></div>
+                <div class="theme-toggle">
+                    <button id="theme-toggle" aria-label="切换主题">
+                        <span id="theme-icon">🌙</span>
+                        <span id="theme-text">深色模式</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="animate-in">
+            <h2>DNS 测速与污染检测工具</h2>
+            <p>一个用 Rust 编写的现代化 DNS 测速和污染检测命令行工具。支持 TUI 交互界面、多种输出格式，让 DNS 服务器测试变得简单高效。</p>
+            <div class="download-buttons">
+                <a href="https://github.com/wjsoj/dnstest/releases" class="btn">📥 下载最新版本</a>
+                <a href="https://github.com/wjsoj/dnstest" class="btn btn-secondary">🔗 GitHub 仓库</a>
+            </div>
+        </section>
+
+        <section class="animate-in delay-1">
+            <h2>功能特性</h2>
+            <ul class="feature-list">
+                <li>DNS 测速 - 使用 ICMP Ping 测试 DNS 服务器延迟</li>
+                <li>污染检测 - 对比系统 DNS 与公共 DNS 解析结果</li>
+                <li>交互式 TUI - 友好的终端用户界面</li>
+                <li>多种输出格式 - 支持 Table、JSON、CSV、TSV</li>
+                <li>IPv4/IPv6 支持 - 兼容双协议栈 DNS 服务器</li>
+            </ul>
+        </section>
+
+        <section class="animate-in delay-2">
+            <h2>安装方法</h2>
+            <h3>从源码编译</h3>
+            <pre><code>cargo install dnstest</code></pre>
+            <h3>从 GitHub 下载</h3>
+            <p>访问 <a href="https://github.com/wjsoj/dnstest/releases">Releases 页面</a> 下载预编译的二进制文件。</p>
+            <h3>前置要求</h3>
+            <ul class="feature-list">
+                <li>Rust 1.75 或更高版本</li>
+                <li>Root/sudo 权限（用于 ICMP Ping）</li>
+            </ul>
+        </section>
+
+        <section class="animate-in delay-3">
+            <h2>使用方法</h2>
+            <h3>交互模式（默认）</h3>
+            <pre><code>dnstest</code></pre>
+            <h3>DNS 测速</h3>
+            <pre><code>dnstest speed
+dnstest speed --sort
+dnstest speed --dns 8.8.8.8#Google
+dnstest speed --format json</code></pre>
+            <h3>DNS 污染检测</h3>
+            <pre><code>dnstest check google.com
+dnstest check google.com --format json</code></pre>
+            <h3>列出 DNS 服务器</h3>
+            <pre><code>dnstest list
+dnstest list --ipv4
+dnstest list --ipv6</code></pre>
+        </section>
+
+        <section class="animate-in delay-4">
+            <h2>输出格式</h2>
+            <div class="card-grid">
+                <div class="card"><h3><span class="card-icon">📊</span> Table</h3><p>人类可读的表格格式（默认）</p></div>
+                <div class="card"><h3><span class="card-icon">📄</span> JSON</h3><p>JSON 数组格式，便于程序处理</p></div>
+                <div class="card"><h3><span class="card-icon">📋</span> CSV</h3><p>逗号分隔值格式</p></div>
+                <div class="card"><h3><span class="card-icon">📝</span> TSV</h3><p>制表符分隔值格式</p></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>DNS 服务器列表</h2>
+            <p>以下是内置的公共 DNS 服务器列表：</p>
+            <div class="download-buttons">
+                <a href="dnslist.json" download class="btn btn-secondary">📥 下载 dnslist.json (IPv4)</a>
+                <a href="dnslist-v6.json" download class="btn btn-secondary">📥 下载 dnslist-v6.json (IPv6)</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>API 端点</h2>
+            <h3>GitHub Pages（直连）</h3>
+            <pre><code>https://wjsoj.github.io/dnstest/dnslist.json
+https://wjsoj.github.io/dnstest/dnslist-v6.json</code></pre>
+            <h3>jsDelivr CDN（推荐）</h3>
+            <pre><code>https://cdn.jsdelivr.net/gh/wjsoj/dnstest/dnslist.json
+https://cdn.jsdelivr.net/gh/wjsoj/dnstest/dnslist-v6.json</code></pre>
+        </section>
+
+        <section>
+            <h2>贡献指南</h2>
+            <p>欢迎提交 Issue 和 Pull Request！请访问 <a href="https://github.com/wjsoj/dnstest">GitHub 仓库</a> 了解如何贡献。</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 dnstest. MIT License.</p>
+            <p>由 <a href="https://github.com/wjsoj">wjsoj</a> 用 ❤️ 构建</p>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            function getThemePreference() {
+                const saved = localStorage.getItem('theme');
+                if (saved) return saved;
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                if (theme === 'dark') { themeIcon.textContent = '☀️'; themeText.textContent = '浅色模式'; }
+                else { themeIcon.textContent = '🌙'; themeText.textContent = '深色模式'; }
+            }
+            applyTheme(getThemePreference());
+            toggleBtn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                applyTheme(current === 'dark' ? 'light' : 'dark');
+            });
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+            });
+        })();
+    </script>
+</body>
+</html>
