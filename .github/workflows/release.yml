@@ -70,7 +70,6 @@ jobs:
           cp target/${{ matrix.target }}/release/dnstest release/
           cd release
           tar -czvf ${{ matrix.artifact }}.tar.gz dnstest
-          sha256sum ${{ matrix.artifact }}.tar.gz > ${{ matrix.artifact }}.tar.gz.sha256
 
       - name: Package binary (Windows)
         if: matrix.archive == 'zip'
@@ -79,15 +78,12 @@ jobs:
           cp target/${{ matrix.target }}/release/dnstest.exe release/
           cd release
           7z a ${{ matrix.artifact }}.zip dnstest.exe
-          certutil -hashfile ${{ matrix.artifact }}.zip SHA256 > ${{ matrix.artifact }}.zip.sha256
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: |
-            release/${{ matrix.artifact }}.${{ matrix.archive }}
-            release/${{ matrix.artifact }}.${{ matrix.archive }}.sha256
+          path: release/${{ matrix.artifact }}.${{ matrix.archive }}
 
   release:
     name: Create Release
@@ -111,9 +107,7 @@ jobs:
           generate_release_notes: true
           files: |
             artifacts/*.tar.gz
-            artifacts/*.tar.gz.sha256
             artifacts/*.zip
-            artifacts/*.zip.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -128,8 +122,3 @@ jobs:
               echo "- $(basename $f)" >> $GITHUB_STEP_SUMMARY
             fi
           done
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### SHA256 Checksums" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          cat artifacts/*.sha256 >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
